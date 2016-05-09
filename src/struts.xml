@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="true" />
+
+	<package name="User" namespace="/user" extends="struts-default">
+       
+        <!--用户登录action -->
+		<action name="ulogin" class="com.ticket.action.User_Login_Action" method="login">
+			<result>/List.jsp</result>
+			<result name="input">/userLogin.jsp</result>
+		</action>
+        
+        <!-- 用户注册action -->
+		<action name="uregister" class="com.ticket.action.User_Register_Action" method="register">
+			<result>/userLogin.jsp</result>
+			<result name="input">/register.jsp</result>
+		</action>
+        
+        <!-- 用户退出登录action -->
+		<action name="ulogout" class="com.ticket.action.User_Logout_Action" method="logout">
+			<result>/List.jsp</result>
+		</action>
+
+	</package>
+
+	<package name="Admin" namespace="/admin" extends="struts-default">
+        
+        <!-- 管理员登录 -->
+		<action name="alogin" class="com.ticket.action.Admin_Login_Action" method="login">
+			<result>/WEB-INF/jsp/adminSuccess.jsp</result>
+			<result name="input">/adminLogin.jsp</result>
+		</action>
+		
+		<action name="userMng" class="com.ticket.action.Admin_UserMng_Action" method="userMng">
+		  <result>/WEB-INF/jsp/admin/UserMng.jsp</result>
+		</action>
+		
+		<action name="flightMng" class="com.ticket.action.Admin_FlightMng_Action" method="flightMng">
+		  <result>/WEB-INF/jsp/admin/FlightMng.jsp</result>
+		</action>
+		
+		<action name="conductorMng" class="com.ticket.action.Admin_ConductorMng_Action" method="conductorMng">
+		  <result>/WEB-INF/jsp/admin/ConductorMng.jsp</result>
+		</action>
+
+	</package>
+	
+	<package name="Flight" namespace="/flight" extends="struts-default">
+	
+	    <!-- 用户查询机票 -->
+		<action name="uqueryflight" class="com.ticket.action.Flight_Query_Action" method="queryFlight">
+			<result>/List.jsp</result>
+		</action>
+		
+		<!-- 管理员查询机票 -->
+		<action name="aqueryflight" class="com.ticket.action.Flight_Query_Action" method="queryFlight">
+			<result>/WEB-INF/jsp/admin/FlightMng.jsp</result>
+		</action>
+		
+		<!-- 管理员删除机票 -->
+		<action name="deleteflight" class="com.ticket.action.Flight_Delete_Action" method="deleteFlight">
+			<result type="chain">aqueryflight</result>
+			<result name="input">/WEB-INF/jsp/admin/FlightMng.jsp</result>
+		</action>
+		
+		<!-- 管理员跳转到添加页面 -->
+		<action name="jumpAdd" class="com.ticket.action.Admin_FlightMng_Action" method="jumpAdd">
+			<result>/WEB-INF/jsp/admin/addFlight.jsp</result>
+		</action>
+		<action name="jumpUpdate" class="com.ticket.action.Admin_FlightMng_Action" method="jumpUpdate">
+			<result>/WEB-INF/jsp/admin/updateFlight.jsp</result>
+		</action>
+		
+		<!-- 管理员添加航班 -->
+		<action name="addFlight" class="com.ticket.action.Flight_Add_Action" method="addFlight">
+			<result type="chain">aqueryflight</result>
+			<result name="input">/WEB-INF/jsp/admin/addFlight.jsp</result>
+		</action>
+		
+		<!-- 管理员更新航班 -->
+		<action name="updateFlight" class="com.ticket.action.Flight_Update_Action" method="updateFlight">
+			<result type="chain">aqueryflight</result>
+			<result name="input">/WEB-INF/jsp/admin/updateFlight.jsp</result>
+		</action>
+	
+	
+	</package>
+
+    <package name="UserOrder" namespace="/userOrder" extends="struts-default">
+       
+        <!-- 订票 -->
+		<action name="saveOrder" class="com.ticket.action.UserOrder_SaveOrder_Action" method="saveOrder">
+			<result type="redirectAction">getOrderList</result>
+			<result name="error">/WEB-INF/jsp/userOrder/error.jsp</result>
+		</action>
+		
+        <!-- 获取订票信息 -->
+		<action name="getOrderList" class="com.ticket.action.UserOrder_GetOrderList_Action" method="getOrderList">
+			<result>/WEB-INF/jsp/userOrder/userOrder.jsp</result>
+		</action>
+        
+        <!-- 退票 -->
+		<action name="deleteOrder" class="com.ticket.action.UserOrder_DeleteOrder_Action" method="deleteOrder">
+			<result type="redirectAction">getOrderList</result>
+			<result name="error">/WEB-INF/jsp/userOrder/error.jsp</result>
+		</action>
+        
+
+	</package>
+</struts>
